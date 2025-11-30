@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>FreshSplit – Fornitura fresca intelligente per la ristorazione</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FreshSplit è la piattaforma che trasforma lo stock da ingrosso in consegne frazionate, fresche e programmate per ristoranti, pizzerie e locali. Zero sprechi, margini più alti.">
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #090f22;
+      --bg-elevated: #0e1730;
+      --accent: #32e39a;
+      --accent-strong: #00c072;
+      --accent-soft: rgba(50, 227, 154, 0.14);
+      --text: #f9fafb;
+      --muted: #a4afc8;
+      --danger: #ff5b77;
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.8);
+      --nav-h: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1a2245 0, #050816 45%, #020309 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    /* NAV */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(5,8,22,0.96), rgba(5,8,22,0.82));
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav {
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 10%, #defff3 0, #32e39a 35%, #00a664 70%, #003f27 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 34px rgba(50, 227, 154, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-icon span {
+      font-size: 18px;
+      font-weight: 800;
+      color: #02110b;
+    }
+
+    .logo-text-main {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), #9efff0);
+      opacity: 0;
+      transform: scaleX(0.4);
+      transform-origin: center;
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .nav-links a:hover {
+      color: #eef0ff;
+    }
+
+    .nav-links a:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .badge {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(11,20,45,0.95);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .btn-main {
+      border-radius: 999px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, var(--accent), #b9ffe8);
+      border: none;
+      color: #02100c;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.8);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 44px rgba(0,0,0,0.95);
+      filter: brightness(1.03);
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 30px;
+      height: 26px;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      height: 3px;
+      border-radius: 999px;
+      background: #f7f7ff;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-mobile-open .nav-toggle span:nth-child(1) {
+      transform: translateY(11px) rotate(45deg);
+    }
+
+    .nav-mobile-open .nav-toggle span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-mobile-open .nav-toggle span:nth-child(3) {
+      transform: translateY(-11px) rotate(-45deg);
+    }
+
+    .nav-menu-mobile {
+      display: none;
+    }
+
+    @media (max-width: 880px) {
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-menu-mobile {
+        position: fixed;
+        top: var(--nav-h);
+        left: 0;
+        right: 0;
+        background: rgba(5,8,22,0.97);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(16px);
+        padding: 10px 18px 14px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 40;
+      }
+
+      .nav-menu-mobile .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .nav-menu-mobile .nav-cta {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .nav-mobile-open .nav-menu-mobile {
+        display: flex;
+      }
+    }
+
+    main {
+      flex: 1;
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 28px 0 38px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px 4px 4px;
+      border-radius: 999px;
+      background: rgba(7,12,30,0.94);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .eyebrow-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #e5fff6 0, var(--accent) 36%, #008b58 75%, #003621 100%);
+      box-shadow: 0 0 20px rgba(50,227,154,0.95);
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 6vw, 44px);
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--accent), #c5fff0);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 18px;
+    }
+
+    .hero-points {
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .hero-point-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(50,227,154,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* HERO CARD ANALYTICS */
+
+    .hero-card {
+      background: radial-gradient(circle at top, #181f41 0, #050816 60%);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 14px 14px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.2;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(50,227,154,0.28), transparent 55%),
+        radial-gradient(circle at 90% 20%, rgba(132,196,255,0.32), transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .hero-card-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .hero-card-tag {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .hero-metric {
+      background: rgba(4,9,24,0.97);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 8px 9px;
+    }
+
+    .hero-metric-label {
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .hero-metric-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .hero-metric-value span {
+      font-size: 11px;
+      color: var(--accent);
+      margin-left: 4px;
+      font-weight: 500;
+    }
+
+    .hero-ticker {
+      margin-top: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(50,227,154,0.35);
+      background: rgba(5,9,26,0.96);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .hero-ticker-pill {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(50,227,154,0.16);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* SECTIONS GENERALI */
+
+    .section {
+      padding: 22px 0 10px;
+    }
+
+    .section-header {
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .section-sub {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    /* BLOCCO PROBLEMA/SOLUZIONE */
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .problem-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 14px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.7);
+      font-size: 14px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card ul {
+      margin-top: 6px;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .card ul li {
+      margin-bottom: 4px;
+    }
+
+    /* STEP COME FUNZIONA */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-card {
+      background: var(--bg-soft);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 12px;
+      font-size: 14px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.6);
+    }
+
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .step-num {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-text {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* LISTINO VERDURA */
+
+    .table-wrap {
+      margin-top: 10px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-soft);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 620px;
+    }
+
+    th, td {
+      padding: 7px 9px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      white-space: nowrap;
+    }
+
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      background: rgba(10,17,38,0.98);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(8,14,32,0.9);
+    }
+
+    .pill-good, .pill-mid {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+    }
+
+    .pill-good {
+      background: rgba(50,227,154,0.18);
+      color: var(--accent);
+    }
+
+    .pill-mid {
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+    }
+
+    /* VANTAGGI / MODELLO BUSINESS */
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 980px) {
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .benefit-card {
+      background: linear-gradient(145deg, rgba(8,14,36,0.98), rgba(10,20,50,0.98));
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 12px;
+      font-size: 14px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.75);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .benefit-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .benefit-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .benefit-text {
+      color: var(--muted);
+    }
+
+    /* CTA / CONTATTI */
+
+    .cta {
+      margin: 20px 0 28px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at 0 0, rgba(50,227,154,0.23), transparent 55%),
+                  radial-gradient(circle at 100% 0, rgba(131,194,255,0.26), transparent 55%),
+                  #050816;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 16px;
+      align-items: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .cta-title {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .cta-text {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .cta-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 13px;
+    }
+
+    .cta-tag {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .cta-contact strong {
+      font-weight: 600;
+    }
+
+    .cta-contact span {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(5,10,30,0.96);
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .cta {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 12px 0 18px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    footer a {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">
+          <div class="logo-icon"><span>FS</span></div>
+          <div>
+            <div class="logo-text-main">FreshSplit</div>
+            <div class="logo-text-sub">Fornitura fresca intelligente</div>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#problema">Perché esiste</a>
+          <a href="#come-funziona">Come funziona</a>
+          <a href="#listino">Listino verdura</a>
+          <a href="#business">Modello business</a>
+          <a href="#contatti">Contatti</a>
+        </div>
+        <div class="nav-cta">
+          <div class="badge">Vigevano &amp; area ristorazione</div>
+          <button class="btn-main" data-scroll="#contatti">Parla con noi</button>
+        </div>
+        <div class="nav-toggle" id="navToggle">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+      <div class="nav-menu-mobile" id="navMenuMobile">
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#problema">Perché esiste</a>
+          <a href="#come-funziona">Come funziona</a>
+          <a href="#listino">Listino verdura</a>
+          <a href="#business">Modello business</a>
+          <a href="#contatti">Contatti</a>
+        </div>
+        <div class="nav-cta">
+          <div class="badge">Startup 2026</div>
+          <button class="btn-main" data-scroll="#contatti">Richiedi info</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">
+              <div class="eyebrow-dot"></div>
+              <span>Stock da ingrosso &rarr; consegne frazionate &rarr; zero sprechi</span>
+            </div>
+            <h1 class="hero-title">
+              Il fresco per la ristorazione,<br />
+              <span>ripensato come un abbonamento.</span>
+            </h1>
+            <p class="hero-subtitle">
+              FreshSplit è la startup che trasforma l’acquisto all’ingrosso in un flusso di consegne
+              piccole, frequenti e programmate. I ristoranti pagano lo stock una volta,
+              ricevono solo ciò che usano, quando serve.
+            </p>
+            <div class="hero-points">
+              <div class="hero-point">
+                <div class="hero-point-icon">✓</div>
+                <div>Riduzione reale degli sprechi su verdura, carne e latticini deperibili.</div>
+              </div>
+              <div class="hero-point">
+                <div class="hero-point-icon">✓</div>
+                <div>Modello “stock + consegna frazionata” documentato e replicabile per più città.</div>
+              </div>
+              <div class="hero-point">
+                <div class="hero-point-icon">✓</div>
+                <div>Base clienti ricorrenti e processi standardizzati, pensati per essere scalati o acquisiti.</div>
+              </div>
+            </div>
+            <div class="hero-cta-row">
+              <button class="btn-main" data-scroll="#problema">Capisci il problema</button>
+              <div class="badge">Programma pilota 2026 – ristoranti selezionati</div>
+            </div>
+            <div class="hero-note">
+              Focus iniziale: Vigevano, Abbiategrasso e comuni limitrofi, con modello replicabile su altre province.
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="hero-card-inner">
+              <div class="hero-card-header">
+                <div>
+                  <div class="hero-card-title">Snapshot unit economics</div>
+                  <div class="hero-card-tag">Scenario di esempio su 30 ristoranti attivi</div>
+                </div>
+                <div class="hero-chip">Proiezione pilota</div>
+              </div>
+              <div class="hero-metrics">
+                <div class="hero-metric">
+                  <div class="hero-metric-label">Ricavo medio per locale</div>
+                  <div class="hero-metric-value">500–800€ <span>/mese</span></div>
+                </div>
+                <div class="hero-metric">
+                  <div class="hero-metric-label">Margine lordo stimato</div>
+                  <div class="hero-metric-value">22–28% <span>su stock</span></div>
+                </div>
+                <div class="hero-metric">
+                  <div class="hero-metric-label">Spreco cliente</div>
+                  <div class="hero-metric-value">-50% <span>vs gestione standard</span></div>
+                </div>
+                <div class="hero-metric">
+                  <div class="hero-metric-label">Ricavi annui ipotetici</div>
+                  <div class="hero-metric-value">180k–280k€</div>
+                </div>
+              </div>
+              <div class="hero-ticker">
+                <span>Flusso ricorrente basato su ordini mensili + fee logistica</span>
+                <span class="hero-ticker-pill">Struttura pronta per partner o acquisizione</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEMA / SOLUZIONE -->
+    <section class="section" id="problema">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Perché FreshSplit esiste</h2>
+          <p class="section-sub">
+            Ogni ristorante combatte con lo stesso paradosso: servono scorte da ingrosso
+            per contenere i costi, ma i prodotti freschi si rovinano in pochi giorni.
+            Il risultato è spreco e margine che evapora a fine settimana.
+          </p>
+        </div>
+        <div class="problem-grid">
+          <div class="card">
+            <div class="card-title">Il problema lato ristoratore</div>
+            <ul>
+              <li>Scorte da ingrosso per avere prezzo migliore, ma frigoriferi pieni di merce che scade.</li>
+              <li>Tempo perso ogni settimana a fare ordini, rincorrere consegne, gestire imprevisti.</li>
+              <li>Food cost instabile: difficile capire quanto margine reale resta in ogni piatto.</li>
+              <li>Nessuno strumento pensato apposta per “abbattere spreco sui deperibili”.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">La soluzione proposta da FreshSplit</div>
+            <ul>
+              <li>Ordine di stock mensile/settimanale pagato una volta, a logica ingrosso.</li>
+              <li>Consegne frazionate di piccole quantità, calibrate sul consumo reale del locale.</li>
+              <li>Regole operative semplici e replicabili, non legate a una persona sola.</li>
+              <li>Piattaforma che traccia stock, consegne, consumi e sprechi ridotti nel tempo.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COME FUNZIONA -->
+    <section class="section" id="come-funziona">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Come funziona nella pratica</h2>
+          <p class="section-sub">
+            Il modello FreshSplit è costruito per essere compreso in pochi passaggi
+            da chi lavora in cucina, ma anche per essere documentato e scalato a livello di business.
+          </p>
+        </div>
+        <div class="steps">
+          <div class="step-card">
+            <div class="step-tag">
+              <div class="step-num">1</div>
+              <span>Stock &amp; profiling</span>
+            </div>
+            <div class="step-title">Definizione scorte</div>
+            <p class="step-text">
+              Si analizzano consumi medi del locale (verdura, carne, latticini) e si costruisce uno
+              stock di riferimento per 2–4 settimane. Il ristorante paga la scorta in anticipo,
+              con prezzi competitivi rispetto all’ingrosso tradizionale.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-tag">
+              <div class="step-num">2</div>
+              <span>Consegne frazionate</span>
+            </div>
+            <div class="step-title">Calendario operativo</div>
+            <p class="step-text">
+              Si impostano i giorni di consegna (ad esempio lunedì e giovedì). FreshSplit consegna solo
+              la quantità realmente utile per i giorni successivi, mantenendo il resto in gestione
+              controllata per le prossime consegne.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-tag">
+              <div class="step-num">3</div>
+              <span>Dati &amp; margini</span>
+            </div>
+            <div class="step-title">Monitoraggio e ottimizzazione</div>
+            <p class="step-text">
+              La piattaforma registra consegne e consumi e permette di ridurre ancora di più gli sprechi
+              nel tempo. I numeri sono leggibili sia dal ristoratore che da eventuali partner/investitori.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTINO VERDURA -->
+    <section class="section" id="listino">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Listino verdura – posizionamento FreshSplit</h2>
+          <p class="section-sub">
+            Esempio di posizionamento prezzi su alcune verdure base, confrontando Docks (ingrosso),
+            supermercato e fascia FreshSplit. I valori sono indicativi, ma mostrano chiaramente
+            la logica di margine e convenienza.
+          </p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+            <tr>
+              <th>Prodotto</th>
+              <th>Docks (€/kg)</th>
+              <th>Supermercato (€/kg)</th>
+              <th>FreshSplit (€/kg)</th>
+              <th>Nota</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Zucchine</td>
+              <td>1,99</td>
+              <td>2,20 – 2,80</td>
+              <td><strong>1,80 – 2,20</strong></td>
+              <td><span class="pill-good">Prezzo competitivo + abbonamento consegne</span></td>
+            </tr>
+            <tr>
+              <td>Insalata Iceberg / Romana</td>
+              <td>1,79</td>
+              <td>1,80 – 2,50</td>
+              <td><strong>1,80 – 2,20</strong></td>
+              <td><span class="pill-mid">Allineato al mercato, con sprechi ridotti</span></td>
+            </tr>
+            <tr>
+              <td>Carote</td>
+              <td>0,95</td>
+              <td>1,50 – 2,00</td>
+              <td><strong>1,40 – 1,70</strong></td>
+              <td><span class="pill-good">Prodotto di volume, buon margine</span></td>
+            </tr>
+            <tr>
+              <td>Patate</td>
+              <td>~0,80–1,00</td>
+              <td>1,20 – 1,70</td>
+              <td><strong>1,10 – 1,50</strong></td>
+              <td><span class="pill-mid">Base per testare flusso logistico</span></td>
+            </tr>
+            <tr>
+              <td>Pomodori da cottura</td>
+              <td>~0,90–1,10</td>
+              <td>2,00 – 3,00</td>
+              <td><strong>1,80 – 2,40</strong></td>
+              <td><span class="pill-good">Valore forte su salse e sughi</span></td>
+            </tr>
+            <tr>
+              <td>Peperoni misti</td>
+              <td>~1,20–1,80</td>
+              <td>2,50 – 3,80</td>
+              <td><strong>2,10 – 2,70</strong></td>
+              <td><span class="pill-good">Differenziale prezzo vs supermercato evidente</span></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-sub" style="margin-top:8px;">
+          Sopra al prezzo per kg si aggiunge il modello di servizio:
+          fee per consegna o abbonamento mensile fisso. È lì che si consolida il margine
+          ricorrente e la logica “da startup” più che “da semplice grossista”.
+        </p>
+      </div>
+    </section>
+
+    <!-- MODELLO DI BUSINESS / VANTAGGI -->
+    <section class="section" id="business">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Modello di business e scalabilità</h2>
+          <p class="section-sub">
+            FreshSplit non è solo un servizio locale di consegna verdura: è una struttura
+            pensata per essere documentata, replicata e – se serve – acquisita da grossisti
+            o player logistici più grandi.
+          </p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">💶</div>
+            <div class="benefit-title">Ricavi ricorrenti</div>
+            <p class="benefit-text">
+              Ogni locale genera ricavi composti: margine sullo stock acquistato + fee logistica
+              o abbonamento mensile. Il modello è mensile, leggibile e presentabile a potenziali investitori
+              o acquirenti come flusso ripetitivo, non come vendita spot.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">📚</div>
+            <div class="benefit-title">Processi documentati</div>
+            <p class="benefit-text">
+              Manuali operativi, flussi di ordini, gestione giri di consegna, criteri di selezione clienti:
+              tutto viene scritto e reso replicabile. L’obiettivo è che un team locale possa gestire un’area
+              senza dipendere da una singola persona chiave.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🧭</div>
+            <div class="benefit-title">Struttura pronta per exit</div>
+            <p class="benefit-text">
+              Con una S.r.l. pulita, clienti attivi, sistema operativo definito e numeri chiari su margini
+              e sprechi ridotti, FreshSplit può diventare un target interessante per grossisti,
+              catene cash &amp; carry o operatori logistica che vogliono aggiungere il modello
+              “stock + consegna frazionata” al loro portafoglio.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA / CONTATTI -->
+    <section class="section" id="contatti">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <div class="cta-title">Vuoi entrare nel pilota o parlarne da partner?</div>
+            <div class="cta-text">
+              Stiamo definendo i primi locali pilota in zona Vigevano – Abbiategrasso e valutando
+              interlocutori interessati a portare il modello FreshSplit su scala più ampia
+              (altri territori, integrazione con magazzini esistenti, rete di driver).
+            </div>
+          </div>
+          <div class="cta-right">
+            <div class="cta-tag">Contatto diretto</div>
+            <div class="cta-contact">
+              Tel / WhatsApp: <strong>+39 349 116 7434</strong><br />
+              Email: <strong>info@freshsplit.it</strong><br />
+              <span>Operativo: Vigevano – Abbiategrasso – comuni limitrofi</span>
+            </div>
+            <button class="btn-main">Scrivi su WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    FreshSplit &copy; <span id="year"></span> – Modello di fornitura fresca intelligente per la ristorazione.<br/>
+    Tutti i dati e i valori in questa pagina sono esempi indicativi a scopo illustrativo.
+  </footer>
+</div>
+
+<script>
+  // Anno nel footer
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Gestione mobile nav
+  const body = document.body;
+  const navToggle = document.getElementById("navToggle");
+  const navMenuMobile = document.getElementById("navMenuMobile");
+
+  if (navToggle) {
+    navToggle.addEventListener("click", () => {
+      body.classList.toggle("nav-mobile-open");
+    });
+  }
+
+  function smoothScrollTo(targetId) {
+    const el = document.querySelector(targetId);
+    if (!el) return;
+    const headerOffset = document.querySelector("header").offsetHeight || 0;
+    const rect = el.getBoundingClientRect();
+    const offset = rect.top + window.pageYOffset - headerOffset - 6;
+    window.scrollTo({ top: offset, behavior: "smooth" });
+  }
+
+  // Link di navigazione
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", e => {
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
+      const targetId = href;
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        smoothScrollTo(targetId);
+        body.classList.remove("nav-mobile-open");
+      }
+    });
+  });
+
+  // Bottoni con data-scroll
+  document.querySelectorAll("[data-scroll]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      const targetId = btn.getAttribute("data-scroll");
+      if (!targetId) return;
+      e.preventDefault();
+      smoothScrollTo(targetId);
+      body.classList.remove("nav-mobile-open");
+    });
+  });
+</script>
+</body>
+</html>
